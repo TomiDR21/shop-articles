@@ -1,0 +1,129 @@
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+
+
+.divTable {
+    color: rgb(5, 5, 5);
+    font-size: 35px;
+    position: relative;
+    left: 285px
+}
+
+.tabla {
+    display: block;
+    width: 50%;
+}
+
+.tabla td:nth-child(2) {
+    background-color: rgb(174, 168, 168);
+}
+
+.tabla,
+thead,
+th {
+    border-collapse: collapse;
+    color: rgb(172, 152, 152);
+    font-weight: bold;
+    width: 800px;
+}
+
+thead {
+    background-color: rgb(6, 36, 63);
+}
+
+tbody tr {
+    color: rgb(0, 0, 0);
+    border-bottom: 1px solid gray;
+}
+
+tbody {
+    text-align: center;
+}
+
+.btnEditImg,
+.btnDeleteImg {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+}
+
+.btnDelete,
+.btnEdit {
+    border: none;
+    background-color: transparent;
+}
+
+
+/* NAVIGATION BUTTONS  */
+.navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.nextButton img,
+.previousButton img
+{
+    width: 20px;
+    height: 20px;
+}
+
+.previousButton,
+.nextButton {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    margin-top: 6px;
+}
+
+.previousButton,
+.nextButton:hover {
+    cursor: pointer;
+}
+/* .searchBarContainer{
+    margin-top: 30px;
+    
+}
+
+
+.searchButton {
+    position: relative;
+    right: 40px;
+    top: 2px;
+    border: none;
+    background-color: transparent;
+    padding: 7px 10px 7px 10px;
+  }
+  
+  .searchBar{
+    padding: 10px;
+    width: 300px;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px;
+}
+
+.btnSearchImg{
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+}
+
+.searchButton:hover{
+    cursor: pointer;
+    background-color: rgb(199, 197, 197);
+    border-radius: 70px;
+}
+
+.searchBar:focus{
+    outline: none;
+
+} */
+
