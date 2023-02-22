@@ -10,12 +10,23 @@ routes.get('/', (req, res) =>{
 routes.get('/api', (req, res) =>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query("SELECT id, CONCAT('$', price) AS price, article, stock FROM tablaproductos ORDER BY article ASC ", (err, rows)=>{
+        conn.query("SELECT id, CONCAT('$', price) AS price, article, stock, tag FROM tablaproductos ORDER BY article ASC ", (err, rows)=>{
             res.json(rows)
         })
 
     })
 })
+
+routes.get('/api/:tag', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err);
+        const tag = req.params.tag;
+        conn.query("SELECT id, CONCAT('$', price) AS price, article, stock, tag FROM tablaproductos WHERE tag = ? ORDER BY article ASC", [tag],
+        (err, rows) => {
+            res.json(rows);
+        });
+    });
+});
 
 
 
@@ -26,9 +37,9 @@ routes.post('/api', (req, res) =>{
        
         if(err) return res.send(err)
         console.log(req.body)
-        const { article, price, stock } = req.body;
-        conn.query("INSERT INTO tablaproductos (article, price, stock) VALUES (?, ?, ?)", 
-        [article, price, stock], (err, rows) => {
+        const { article, price, stock, tag } = req.body;
+        conn.query("INSERT INTO tablaproductos (article, price, stock, tag) VALUES (?, ?, ?, ?)", 
+        [article, price, stock, tag], (err, rows) => {
             if (err) {
             console.log(err);
             }

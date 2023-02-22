@@ -3,7 +3,9 @@ import styles from './table.module.css'
 import axios from 'axios'
 
 
-const Table = ({ handleChange, product, currentPage, setCurrentPage, totalPages, setTotalPages, products, listUpdated, setListUpdated, getProducts }) => {
+const Table = ({ showTable, setShowTable, handleShowTableClick, handleChange, product, currentPage, setCurrentPage, totalPages, setTotalPages, products, listUpdated, setListUpdated, getProducts }) => {
+
+
 
     const productsPerPage = 10;
 
@@ -100,6 +102,7 @@ const productsForCurrentPage = products.slice(
                         <th>Price</th>
                         <th>Stock</th>
                         <th></th>
+                        {/* <th></th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -112,6 +115,7 @@ const productsForCurrentPage = products.slice(
                             <td><button onClick={() => handleUpdate(product.id)} className={styles.btnEdit}><img src='/edit2.png' alt="" className={styles.btnEditImg} /></button>
                                 <button onClick={() => handleDelete(product.id)} className={styles.btnDelete}><img src='./delete.png' alt="" className={styles.btnDeleteImg} /></button>
                             </td>
+                            {/* <td><input type="checkbox"></input></td> */}
 
                         </tr>
                     ))}

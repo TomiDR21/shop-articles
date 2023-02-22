@@ -1,9 +1,31 @@
-.nav {
-    font-size: 30px;
+.navContainer {
+    font-size: 25px;
+    padding: 10px;
     display: flex;
     align-items: center;
-    padding-left: 40px;
+    justify-content: space-between;
     height: 60px;
     color: white;
     background-color: black;
+}
+
+
+button{
+    
+}
+
+.navContainer > button {
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+
+
+
+}
+
+.navContainer > button:hover {
+    border-bottom: 1px solid white ; 
+
 }

@@ -13,11 +13,17 @@ function App() {
   const [totalPages, setTotalPages] = useState(1);
   const [products, setProducts] = useState([]);
 
+
+
   const [product, setProduct] = useState({
-    article: '',
-    price: 0,
-    stock: 0
+    // article: '',
+    // price: 0,
+    // stock: 0
 })
+
+
+
+
 
 const handleChange = (e) => {
     setProduct({
@@ -43,21 +49,55 @@ const handleChange = (e) => {
   
 
 
-  useEffect(() => {
-    getProducts();
-    setListUpdated(false)
-  }, [currentPage, listUpdated]);
+  //PRODUCTS BY TAG
+  const [data, setData] = useState([]);
+  const [selectedTag, setSelectedTag] = useState('');
+  const tags = ['coso', 'electronics', 'clothing', 'books'];
+  
+  const handleNavClick = tag => {
+    console.log(`Selected tag: ${tag}`);
 
+    setSelectedTag(tag);
+  };
+  const getProductByTag = async (selectedTag) => {
+    console.log("Selected tag (in getProductByTag): ", selectedTag);
+    try {
+      const response = await fetch(`/api/${selectedTag}`);
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   
+  useEffect(() => {
+    const fetchData = async () => {
+      await getProducts();
+      if (selectedTag) {
+        await getProductByTag();
+      }
+      setListUpdated(false);
+    };
+  
+    fetchData();
+  }, [currentPage, selectedTag, listUpdated]);
   
 
   return (
     <Fragment>
-    <Nav></Nav>
+    <Nav 
+    tags={tags}
+    handleNavClick={handleNavClick}
+    activeTag={selectedTag}
+    >
+
+    </Nav>
+    
     <div className="app-container">
 
       <Table 
+  
       product={product}
       products={products} 
       listUpdated={listUpdated} 
@@ -70,6 +110,7 @@ const handleChange = (e) => {
       handleChange={handleChange}>
 
       </Table>
+
 
 
       <Form 
