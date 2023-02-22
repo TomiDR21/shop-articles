@@ -1,5 +1,4 @@
 .navContainer {
-    font-size: 25px;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -15,7 +14,8 @@ button{
 }
 
 .navContainer > button {
-    font-size: 25px;
+    font-size: 18px;
+    font-weight: 100;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
     background-color: transparent;
@@ -27,5 +27,6 @@ button{
 
 .navContainer > button:hover {
     border-bottom: 1px solid white ; 
+
 
 }

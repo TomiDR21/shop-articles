@@ -3,7 +3,7 @@ import styles from "./nav.module.css";
 import Table from "./table";
 import { useState } from "react";
 
-const Nav = ({ displayedData, setDisplayedData, data, toggleTable, handleNavClick, activeTag, tags }) => {
+const Nav = ({ products , handleNavClick, activeTag, tags }) => {
 
 
 
@@ -15,7 +15,7 @@ const Nav = ({ displayedData, setDisplayedData, data, toggleTable, handleNavClic
     <nav className={styles.navContainer}>
     {tags.map((tag) => (
       <button 
-        
+  
         key={tag}
         className={tag === activeTag ? 'active' : ''}
         onClick={() => handleNavClick(tag)}
