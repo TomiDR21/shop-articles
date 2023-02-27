@@ -23,27 +23,39 @@ function App() {
   const getProducts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api?page=${currentPage}&limit=10`
+        `http://localhost:5000/api?page=${currentPage}&limit=15`
       );
       setProducts(res.data);
-      setTotalPages(Math.ceil(res.data.length / 10));
+      setTotalPages(Math.ceil(res.data.length / 15));
     } catch (error) {
       console.log(error);
     }
   };
 
+
+
+  
   //PRODUCTS BY TAG
   const [data, setData] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
-  const tags = ["PINTURAS", "AL CARPINTERO", "EQ ARTE", "PROVEEDOR"];
+  const tags = [ "LA TIENDITA", "SERVILLETAS", "ARTE FIRBRO","BASTIDORES","STENCIL","BUENOS DESEOS", "TITINAS", "PINCELES", "SKALATEX"];
+  const subTags = ["ETERNA", "EQARTE", "ALBA", "AQUARELL"];
+  const carpinteriaSubTags = ["MADERA", "MDF"];
+  const alCarpinteroSubTags = ["MADERA AC", "MDF AC"];
+  const [tableTag, setTableTag] = useState('TODOS');
+
+
+
 
 
   const handleNavClick = (tag) => {
     console.log(`Selected tag: ${tag}`);
     setSelectedTag(tag);
     getProductByTag(tag);
+    setTableTag(tag)
   };
   
+
   const getProductByTag = async (selectedTag) => {
     console.log("Selected tag (in getProductByTag): ", selectedTag);
 
@@ -51,6 +63,7 @@ function App() {
       const response = await fetch(`http://localhost:5000/api/${selectedTag}`);
       const json = await response.json();
       setData(json);
+      
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +82,17 @@ function App() {
   }, [currentPage, selectedTag, listUpdated]);
 
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    axios.post('http://localhost:5000/api', product, {
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(res => getProducts())
+        .catch(error => console.log(error));
+
+
+}
 
 
   //RETURN-------------------------
@@ -85,10 +108,15 @@ function App() {
         tags={tags}
         handleNavClick={handleNavClick}
         activeTag={selectedTag}
+        subTags={subTags}
+        carpinteriaSubTags={carpinteriaSubTags}
+        alCarpinteroSubTags={alCarpinteroSubTags}
       ></Nav>
 
       <div className="app-container">
         <Table
+        tableTag={tableTag} setTableTag={setTableTag}
+        tags={tags}
           product={product}
           products={products}
           listUpdated={listUpdated}
@@ -100,12 +128,15 @@ function App() {
           setTotalPages={setTotalPages}
           handleChange={handleChange}
           selectedTag={selectedTag }
+          setProducts={setProducts}
+          handleSubmit={handleSubmit}
         ></Table>
 
         <Form
           getProducts={getProducts}
           handleChange={handleChange}
           product={product}
+          handleSubmit={handleSubmit}
         ></Form>
       </div>
     </Fragment>

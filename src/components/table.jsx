@@ -3,7 +3,11 @@ import styles from "./table.module.css";
 import axios from "axios";
 
 const Table = ({
-    selectedTag,
+  tableTag,
+  setTableTag,
+  tags,
+  setProducts,
+  selectedTag,
   handleChange,
   product,
   currentPage,
@@ -15,7 +19,38 @@ const Table = ({
   setListUpdated,
   getProducts,
 }) => {
-  const productsPerPage = 10;
+  const [percentage, setPercentage] = useState(0);
+  const [showModalDlt, setShowModalDlt] = useState();
+  const [showModalEdit, setShowModalEdit] = useState();
+  const [clickedRowIndex, setClickedRowIndex] = useState(-1);
+
+  const handlePercentageChange = (event) => {
+    setPercentage(event.target.value);
+  };
+
+  const handleAddPercentage = () => {
+    const updatedProducts = products.map((product) => ({
+      ...product,
+      price: Number(product.price) + (Number(product.price) * percentage) / 100,
+    }));
+    const truncatedProducts = updatedProducts.map((product) => ({
+      ...product,
+      price: Number(product.price.toFixed(0)),
+    }));
+
+    setProducts(truncatedProducts);
+
+    axios
+      .put("http://localhost:5000/api", updatedProducts)
+      .then((response) => {
+        console.log("Update successful");
+      })
+      .catch((error) => {
+        console.log("Update failed");
+      });
+  };
+
+  const productsPerPage = 15;
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -27,15 +62,18 @@ const Table = ({
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
-    if (currentPage > totalPages) {
-      setCurrentPage(currentPage - 1);
-    }
   };
+  const filteredProducts = products.filter(
+    (product) => !selectedTag || product.tag === selectedTag
+  );
 
-  
-  const productsForCurrentPage = products
-  .filter((product) => !selectedTag || product.tag === selectedTag)
-  .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+  const totalProducts = filteredProducts.length;
+  const totalOfPages = Math.ceil(totalProducts / productsPerPage);
+
+  const productsForCurrentPage = filteredProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   //DELETE------
 
@@ -49,11 +87,23 @@ const Table = ({
         if (res.ok) {
           console.log("Delete successful");
           setListUpdated(true);
+          setShowModalDlt(false);
         } else {
           console.log("Delete failed");
         }
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleDeleteClick = (index) => {
+    // show the modal when the delete button is clicked
+    setClickedRowIndex(index);
+    setShowModalDlt(true);
+  };
+
+  const handleCancelDelete = () => {
+    // hide the modal
+    setShowModalDlt(false);
   };
 
   //UPDATE-------
@@ -70,6 +120,7 @@ const Table = ({
           console.log("Update successful");
 
           setListUpdated(true);
+          setShowModalEdit(false);
         } else {
           console.log("Update failed");
         }
@@ -79,27 +130,49 @@ const Table = ({
       });
   };
 
+  const handleEditClick = (index) => {
+    // show the modal when the delete button is clicked
+    setClickedRowIndex(index);
+    setShowModalEdit(true);
+  };
+
+  const handleCancelEdit = () => {
+    // hide the modal
+    setShowModalEdit(false);
+  };
 
   //TABLE----------
 
   return (
     <>
-      {/* <div className={styles.divTable}>
-                Table
-            </div> */}
       <table className={styles.tabla}>
+        <div className={styles.divTable}>{tableTag}</div>
         <thead>
           <tr>
             {/* <th>ID</th> */}
             <th>Article</th>
-            <th>Price</th>
+            <th>
+              Price
+              <input
+                type="number"
+                value={percentage}
+                className={styles.percentageInput}
+                onChange={handlePercentageChange}
+              ></input>
+              <button
+                className={styles.btnPercentage}
+                onClick={handleAddPercentage}
+              >
+                + %
+              </button>
+            </th>
             <th>Stock</th>
             <th></th>
             {/* <th></th> */}
           </tr>
         </thead>
         <tbody>
-          {productsForCurrentPage.map((product) => (
+          {productsForCurrentPage.map((product, index) => (
             <tr key={product.id}>
               {/* <td>{product.id}</td> */}
               <td>{product.article}</td>
@@ -107,13 +180,16 @@ const Table = ({
               <td>{product.stock}</td>
               <td>
                 <button
-                  onClick={() => handleUpdate(product.id)}
+                  disabled={showModalDlt}
+                  onClick={() => handleEditClick(index)}
                   className={styles.btnEdit}
                 >
                   <img src="/edit2.png" alt="" className={styles.btnEditImg} />
                 </button>
+
                 <button
-                  onClick={() => handleDelete(product.id)}
+                  disabled={showModalEdit}
+                  onClick={() => handleDeleteClick(index)}
                   className={styles.btnDelete}
                 >
                   <img
@@ -122,6 +198,36 @@ const Table = ({
                     className={styles.btnDeleteImg}
                   />
                 </button>
+                {showModalDlt && clickedRowIndex === index && (
+                  <div className={styles.modalDltContainer}>
+                    <div className={styles.modalDlt}>
+                      Confirm delete?
+                      <button
+                        className={styles.btnYesDelete}
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className={styles.btnNoDelete}
+                        onClick={handleCancelDelete}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {showModalEdit && clickedRowIndex === index && (
+                  <div className={styles.modalDltContainer}>
+                    <div className={styles.modalDlt}>
+                      Confirm edit?
+                      <button className={styles.btnYesDelete} onClick={() => handleUpdate(product.id)}>
+                        Yes
+                      </button>
+                      <button className={styles.btnNoDelete} onClick={handleCancelEdit}>No</button>
+                    </div>
+                  </div>
+                )}
               </td>
               {/* <td><input type="checkbox"></input></td> */}
             </tr>
@@ -137,18 +243,22 @@ const Table = ({
           >
             <img src="flecha-izquierda.png"></img>
           </button>
-          <span className={styles.pageInfo}>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button onClick={() => handleNext()} className={styles.nextButton}>
+          {totalOfPages === 0 ? (
+            <span className={styles.pageInfo}>Empty table</span>
+          ) : (
+            <span className={styles.pageInfo}>
+              Page {currentPage} of {totalOfPages}
+            </span>
+          )}
+
+          <button
+            disabled={currentPage === totalOfPages}
+            onClick={() => handleNext()}
+            className={styles.nextButton}
+          >
             <img src="flecha-correcta.png"></img>
           </button>
         </div>
-        {/* SEARCH BAR  */}
-        {/* <div className={styles.searchBarContainer}>
-                <input  onChange={handleChange} className={styles.searchBar} type="search" name="search-bar" placeholder='Search article...'/>
-                <button type='submit' className={styles.searchButton}><img src="/search.png" alt="" className={styles.btnSearchImg}/></button>
-            </div> */}
       </table>
     </>
   );

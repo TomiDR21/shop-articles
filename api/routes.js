@@ -10,7 +10,7 @@ routes.get('/', (req, res) =>{
 routes.get('/api', (req, res) =>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query("SELECT id, CONCAT('$', price) AS price, article, stock, tag FROM tablaproductos ORDER BY article ASC ", (err, rows)=>{
+        conn.query("SELECT id, price, article, stock, tag FROM tablaproductos ORDER BY article ASC ", (err, rows)=>{
             res.json(rows)
         })
 
@@ -86,5 +86,47 @@ routes.put('/api/:id', (req, res) =>{
     })
 })
 
+
+routes.put('/api', (req, res) => {
+    const updatedProducts = req.body;
+    req.getConnection((err, conn) => {
+      if (err) return res.send(err);
+      const query = "UPDATE tablaproductos SET price = ? WHERE id = ?";
+      updatedProducts.forEach((product) => {
+        conn.query(query, [product.price, product.id], (err, result) => {
+          if (err) {
+            console.log("Update failed for product id", product.id);
+          } else {
+            console.log("Update successful for product id", product.id);
+          }
+        });
+      });
+      res.sendStatus(200);
+    });
+  });
+  
+
+//   routes.put('/api/products/:tag', (req, res) => {
+//     const { tag } = req.params;
+//     const { updatedProducts, percentage } = req.body;
+//     req.getConnection((err, conn) => {
+//       if (err) return res.send(err);
+//       const query = "UPDATE tablaproductos SET price = ? WHERE tag = ?";
+//       updatedProducts.forEach((product) => {
+//         if (product.tag === tag) {
+//           const newPrice = product.price * (1 + percentage / 100);
+//           conn.query(query, [newPrice, tag], (err, result) => {
+//             if (err) {
+//               console.log("Update failed for product id", product.id);
+//             } else {
+//               console.log("Update successful for product id", product.id);
+//             }
+//           });
+//         }
+//       });
+//       res.sendStatus(200);
+//     });
+//   });
+  
 
 module.exports = routes

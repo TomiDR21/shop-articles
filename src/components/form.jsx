@@ -3,21 +3,11 @@ import styles from './form.module.css'
 import axios from 'axios';
 
 
-const Form = ({ getProducts, handleChange, product }) => {
+const Form = ({ handleSubmit, getProducts, handleChange, product }) => {
 
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
 
-        axios.post('http://localhost:5000/api', product, {
-            headers: { 'Content-Type': 'application/json' }
-        })
-            .then(res => getProducts())
-            .catch(error => console.log(error));
-
-
-    }
 
     return (
         <form onSubmit={handleSubmit} className={styles.formContainer}>

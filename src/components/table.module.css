@@ -7,38 +7,51 @@ input[type="search"]::-webkit-search-results-decoration {
 
 
 .divTable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:'Courier New', Courier, monospace ;
     color: rgb(5, 5, 5);
-    font-size: 35px;
-    position: relative;
-    left: 285px
+    font-weight: bold;
+    font-size: 20px;
 }
 
+
 .tabla {
+
     display: block;
     width: 50%;
 }
 
-.tabla td:nth-child(2) {
-    background-color: rgb(174, 168, 168);
+
+thead tr{
+    background-color: rgb(114, 142, 161);
 }
 
 .tabla,
 thead,
 th {
     border-collapse: collapse;
-    color: rgb(172, 152, 152);
+    color: rgb(0, 0, 0);
     font-weight: bold;
     width: 800px;
+    
 }
 
+
+
 thead {
-    background-color: rgb(6, 36, 63);
+    background-color: transparent;
 }
 
 tbody tr {
     color: rgb(0, 0, 0);
-    border-bottom: 1px solid gray;
 }
+tr:nth-child(even) {
+    background-color: rgb(245, 169, 169);
+}
+
+
 
 tbody {
     text-align: center;
@@ -90,44 +103,45 @@ tbody {
     color: black;
 }
 
-/* .searchBarContainer{
-    margin-top: 30px;
-    
+.percentageInput{
+    border-radius: 0;
+    border: 1px solid black;
+    height: 10px;
+    width: 40px;
 }
 
+.modalDltContainer{
+    background-color: rgba(175, 176, 177, .6);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
 
-.searchButton {
-    position: relative;
-    right: 40px;
-    top: 2px;
-    border: none;
-    background-color: transparent;
-    padding: 7px 10px 7px 10px;
-  }
-  
-  .searchBar{
-    padding: 10px;
-    width: 300px;
-    height: 40px;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 2px 2px 5px;
 }
 
-.btnSearchImg{
+.modalDlt{
+    padding: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(0, 0, 0);
+}
+
+.btnNoDelete,
+.btnYesDelete{
+    margin-left: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding: 5px;
+    border: transparent;
+    border-radius: 5px;
+}
+
+.btnNoDelete:hover,
+.btnYesDelete:hover {
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    background-color: rgb(228, 230, 230);
 }
 
-.searchButton:hover{
-    cursor: pointer;
-    background-color: rgb(199, 197, 197);
-    border-radius: 70px;
+.btnNoDelete:active,
+.btnYesDelete:active {
+    background-color: rgb(201, 197, 197);
+
 }
-
-.searchBar:focus{
-    outline: none;
-
-} */
-
