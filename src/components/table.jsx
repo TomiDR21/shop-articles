@@ -201,7 +201,7 @@ const Table = ({
                 {showModalDlt && clickedRowIndex === index && (
                   <div className={styles.modalDltContainer}>
                     <div className={styles.modalDlt}>
-                      Confirm delete?
+                      Delete?
                       <button
                         className={styles.btnYesDelete}
                         onClick={() => handleDelete(product.id)}
@@ -220,7 +220,7 @@ const Table = ({
                 {showModalEdit && clickedRowIndex === index && (
                   <div className={styles.modalDltContainer}>
                     <div className={styles.modalDlt}>
-                      Confirm edit?
+                      Edit?
                       <button className={styles.btnYesDelete} onClick={() => handleUpdate(product.id)}>
                         Yes
                       </button>
