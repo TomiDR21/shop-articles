@@ -23,6 +23,7 @@ const Table = ({
   const [showModalDlt, setShowModalDlt] = useState();
   const [showModalEdit, setShowModalEdit] = useState();
   const [clickedRowIndex, setClickedRowIndex] = useState(-1);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
 
   const handlePercentageChange = (event) => {
     setPercentage(event.target.value);
@@ -39,7 +40,7 @@ const Table = ({
     }));
 
     setProducts(truncatedProducts);
-
+    setShowModalConfirm(false)
     axios
       .put("http://localhost:5000/api", updatedProducts)
       .then((response) => {
@@ -49,7 +50,15 @@ const Table = ({
         console.log("Update failed");
       });
   };
-
+  function handleConfirmPercentage() {
+    // apply percentage change
+    setPercentage(0);
+    setShowModalConfirm(true);
+  }
+  
+  function handleCancelPercentage() {
+    setShowModalConfirm(false);
+  }
   const productsPerPage = 15;
 
   const handlePrevious = () => {
@@ -153,18 +162,28 @@ const Table = ({
             <th>Article</th>
             <th>
               Price
-              <input
-                type="number"
-                value={percentage}
-                className={styles.percentageInput}
-                onChange={handlePercentageChange}
-              ></input>
+
               <button
                 className={styles.btnPercentage}
-                onClick={handleAddPercentage}
+                onClick={handleConfirmPercentage}
               >
                 + %
               </button>
+              {showModalConfirm && (
+                              <div className={styles.modalConfimContainer}><input
+                              type="number"
+                              value={percentage}
+                              className={styles.percentageInput}
+                              onChange={handlePercentageChange}
+                            ></input>
+      <div >
+        <div className={styles.modal}>
+          Add {percentage}%?
+          <button onClick={handleAddPercentage}>Add</button>
+          <button onClick={handleCancelPercentage}>Cancel</button>
+        </div>
+      </div>
+      </div> )}
             </th>
             <th>Stock</th>
             <th></th>

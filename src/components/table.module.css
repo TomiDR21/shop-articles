@@ -74,14 +74,24 @@ tbody {
 
 .btnEditImg,
 .btnDeleteImg {
+    
     width: 20px;
     height: 20px;
     cursor: pointer;
 
 }
 
+.btnEditImg:hover,
+.btnDeleteImg:hover {
+    
+background-color: rgb(252, 188, 188) ;
+border-radius: 4px;
+
+}
+
 .btnDelete,
 .btnEdit {
+
     border: none;
     background-color: transparent;
 }
@@ -122,7 +132,10 @@ tbody {
     border-radius: 0;
     border: 1px solid black;
     height: 10px;
-    width: 40px;
+    width: 30px;
+    margin-right: 2px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .modalDltContainer{
@@ -161,3 +174,20 @@ tbody {
     background-color: rgb(201, 197, 197);
 
 }
+
+.modalConfimContainer{
+display: flex;
+}
+
+.btnPercentage, .modal >  button{  font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+padding: 3px;
+border: transparent;
+border-radius: 5px;
+margin-left: 3px;}
+
+
+.btnPercentage:hover, .modal >  button:hover{cursor: pointer;
+    background-color: rgb(208, 211, 211); }
+
+

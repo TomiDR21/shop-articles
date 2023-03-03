@@ -83,7 +83,20 @@ function App() {
 
 
   const handleSubmit = (e) => {
+
+
+
     e.preventDefault();
+    if (!product.article || !product.price) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    const matchedTags = tags.concat(subTags).filter(tag => tag.toUpperCase() === product.tag.toUpperCase());
+  if (matchedTags.length === 0) {
+    alert('Invalid tag');
+    return;
+  }
 
     axios.post('http://localhost:5000/api', product, {
         headers: { 'Content-Type': 'application/json' }
